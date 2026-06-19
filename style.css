@@ -1,0 +1,346 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #e74c3c;
+    --accent-color: #3498db;
+    --background-color: #f5f6fa;
+    --text-color: #333;
+    --card-bg: #fff;
+    --border-color: #ddd;
+    --success-color: #2ecc71;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* Header */
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 2rem;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    margin-bottom: 0.2rem;
+}
+
+header p {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Layout Container */
+.container {
+    display: flex;
+    max-width: 1200px;
+    margin: 2rem auto;
+    gap: 2rem;
+    padding: 0 1rem;
+    height: calc(100vh - 120px);
+}
+
+/* Menu Section */
+.menu-section {
+    flex: 2;
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    overflow-y: auto;
+}
+
+.menu-section h2 {
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.menu-card {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    background: var(--card-bg);
+}
+
+.menu-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-color: var(--accent-color);
+}
+
+.menu-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.menu-card .price {
+    font-weight: bold;
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.add-btn {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.add-btn:hover {
+    background-color: #2980b9;
+}
+
+/* Order Sidebar */
+.order-section {
+    flex: 1;
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.order-section h2 {
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.order-list-container {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+}
+
+#order-list {
+    list-style: none;
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+.item-info {
+    flex: 1;
+}
+
+.item-name {
+    font-weight: bold;
+    display: block;
+}
+
+.item-price-calc {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+}
+
+.item-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.qty-btn {
+    background: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.qty-btn:hover {
+    background: #ddd;
+}
+
+.remove-btn {
+    background: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.2rem 0.5rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.empty-state {
+    text-align: center;
+    color: #95a5a6;
+    padding: 2rem 0;
+    font-style: italic;
+}
+
+/* Bill Summary */
+.bill-summary {
+    background: #f9f9f9;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.bill-summary h3 {
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.total-row {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    border-top: 2px solid var(--border-color);
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.checkout-btn {
+    width: 100%;
+    background-color: var(--success-color);
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.2s;
+}
+
+.checkout-btn:hover:not(:disabled) {
+    background-color: #27ae60;
+}
+
+.checkout-btn:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal:not(.hidden) {
+    display: flex;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    position: relative;
+    text-align: center;
+}
+
+.close {
+    position: absolute;
+    right: 1.5rem;
+    top: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.close:hover {
+    color: #333;
+}
+
+#receipt-details {
+    margin: 1.5rem 0;
+    text-align: left;
+    background: #f9f9f9;
+    padding: 1rem;
+    border: 1px dashed #ccc;
+    font-family: monospace;
+}
+
+.receipt-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.2rem;
+}
+
+.receipt-total {
+    border-top: 1px dashed #ccc;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    font-weight: bold;
+}
+
+.thank-you {
+    font-style: italic;
+    color: #7f8c8d;
+    margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .menu-section, .order-section {
+        flex: none;
+        width: 100%;
+    }
+}

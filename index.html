@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delicacy - Cafe Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Food Delicacy POS</h1>
+        <p>Lightweight Cafe Management System</p>
+    </header>
+
+    <div class="container">
+        <!-- Menu Section -->
+        <main class="menu-section">
+            <h2>Menu</h2>
+            <div id="menu-items" class="menu-grid">
+                <!-- Menu items will be populated here by JavaScript -->
+            </div>
+        </main>
+
+        <!-- Sidebar for Current Order & Bill Summary -->
+        <aside class="order-section">
+            <h2>Current Order</h2>
+            <div class="order-list-container">
+                <ul id="order-list">
+                    <!-- Order items will appear here -->
+                    <li class="empty-state">No items in order.</li>
+                </ul>
+            </div>
+
+            <div class="bill-summary">
+                <h3>Bill Summary</h3>
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">$0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax (10%):</span>
+                    <span id="tax">$0.00</span>
+                </div>
+                <div class="summary-row total-row">
+                    <span>Total:</span>
+                    <span id="total">$0.00</span>
+                </div>
+                <button id="checkout-btn" class="checkout-btn" disabled>Proceed to Checkout</button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div id="receipt-modal" class="modal hidden">
+        <div class="modal-content">
+            <span id="close-modal" class="close">&times;</span>
+            <h2>Receipt</h2>
+            <p><strong>Food Delicacy</strong></p>
+            <div id="receipt-details"></div>
+            <p class="thank-you">Thank you for your order!</p>
+            <button id="new-order-btn" class="checkout-btn">Start New Order</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

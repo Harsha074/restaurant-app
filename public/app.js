@@ -1,17 +1,5 @@
-// Sample Menu Data
-const menuData = [
-    { id: 1, name: 'Espresso', price: 3.50, category: 'coffee' },
-    { id: 2, name: 'Cappuccino', price: 4.50, category: 'coffee' },
-    { id: 3, name: 'Latte', price: 4.75, category: 'coffee' },
-    { id: 4, name: 'Mocha', price: 5.00, category: 'coffee' },
-    { id: 5, name: 'Iced Tea', price: 3.00, category: 'cold' },
-    { id: 6, name: 'Lemonade', price: 3.50, category: 'cold' },
-    { id: 7, name: 'Croissant', price: 2.75, category: 'food' },
-    { id: 8, name: 'Muffin', price: 3.25, category: 'food' },
-    { id: 9, name: 'Sandwich', price: 6.50, category: 'food' }
-];
-
 // State
+let menuData = [];
 let currentOrder = [];
 const TAX_RATE = 0.10; // 10% tax
 
@@ -28,9 +16,21 @@ const receiptDetailsEl = document.getElementById('receipt-details');
 const newOrderBtn = document.getElementById('new-order-btn');
 
 // Initialize App
-function init() {
+async function init() {
+    await fetchMenu();
     renderMenu();
     updateOrderDisplay();
+}
+
+// Fetch Menu Data from Backend
+async function fetchMenu() {
+    try {
+        const response = await fetch('/api/menu');
+        menuData = await response.json();
+    } catch (error) {
+        console.error('Error fetching menu:', error);
+        menuItemsContainer.innerHTML = '<p class="error">Failed to load menu items.</p>';
+    }
 }
 
 // Render Menu Items
@@ -131,8 +131,29 @@ function updateOrderDisplay() {
 }
 
 // Generate Receipt
-function generateReceipt() {
+async function generateReceipt() {
     if (currentOrder.length === 0) return;
+
+    // Send order to backend
+    checkoutBtn.disabled = true;
+    checkoutBtn.textContent = 'Processing...';
+
+    try {
+        const response = await fetch('/api/orders', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ order: currentOrder })
+        });
+        if (!response.ok) throw new Error('Order failed');
+    } catch (error) {
+        console.error('Checkout error:', error);
+        alert('Failed to process order. Please try again.');
+        checkoutBtn.disabled = false;
+        checkoutBtn.textContent = 'Proceed to Checkout';
+        return;
+    }
+
+    checkoutBtn.textContent = 'Proceed to Checkout';
 
     let subtotal = 0;
     let receiptHTML = '';
@@ -185,3 +206,93 @@ newOrderBtn.addEventListener('click', resetOrder);
 
 // Run initialization
 init();
+
+// --- Chatbot Logic ---
+const chatbotHeader = document.getElementById('chatbot-header');
+const chatbotBody = document.getElementById('chatbot-body');
+const chatbotToggleBtn = document.getElementById('chatbot-toggle-btn');
+const chatInput = document.getElementById('chat-input');
+const chatSendBtn = document.getElementById('chat-send-btn');
+const chatMessagesContainer = document.getElementById('chat-messages');
+
+// Toggle Chatbot Visibility
+chatbotHeader.addEventListener('click', toggleChatbot);
+
+function toggleChatbot() {
+    chatbotBody.classList.toggle('minimized');
+    chatbotToggleBtn.textContent = chatbotBody.classList.contains('minimized') ? '+' : '_';
+}
+
+// Send Message
+chatSendBtn.addEventListener('click', sendMessage);
+chatInput.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        sendMessage();
+    }
+});
+
+async function sendMessage() {
+    const text = chatInput.value.trim();
+    if (!text) return;
+
+    // Display user message
+    appendMessage(text, 'user-message');
+    chatInput.value = '';
+
+    // Show loading indicator
+    const loadingId = appendMessage('...', 'bot-message');
+
+    // Call Backend API
+    try {
+        const responseText = await callGeminiAPI(text);
+        updateMessage(loadingId, responseText);
+    } catch (error) {
+        console.error('Error calling Chat API:', error);
+        updateMessage(loadingId, 'Sorry, I encountered an error connecting to the server.');
+    }
+}
+
+function appendMessage(text, className) {
+    const messageEl = document.createElement('div');
+    messageEl.className = `message ${className}`;
+    messageEl.textContent = text;
+
+    // Generate a unique ID if it's the bot loading so we can update it later
+    const id = 'msg-' + Date.now();
+    messageEl.id = id;
+
+    chatMessagesContainer.appendChild(messageEl);
+    chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+
+    return id;
+}
+
+function updateMessage(id, text) {
+    const messageEl = document.getElementById(id);
+    if (messageEl) {
+        messageEl.textContent = text;
+        chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+    }
+}
+
+async function callGeminiAPI(prompt) {
+    const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ prompt })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.error || `HTTP error! status: ${response.status}`);
+    }
+
+    if (data.reply) {
+         return data.reply;
+    } else {
+         throw new Error("Unexpected API response format");
+    }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "Food Delicacy — Restaurant Management System Food Delicacy is a lightweight, browser-based Restaurant Management System (RMS) inspired by industry-leading platforms like Petpooja. Designed for small restaurants, cloud kitchens, cafés, and food entrepreneurs, it provides a complete front-of-house and back-of-house workflow — entirely with HTML",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Harsha074/restaurant-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Harsha074/restaurant-app/issues"
+  },
+  "homepage": "https://github.com/Harsha074/restaurant-app#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "node-fetch": "^2.7.0"
+  }
+}
